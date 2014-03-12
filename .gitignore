@@ -4,5 +4,5 @@
 *.DS_Store
 *.swp
 *.out
-*0-old/
+*old/
 *twitter_credentials.php
