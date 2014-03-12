@@ -8,14 +8,13 @@ var servicePaths = {
     getHistory: serviceRoot + 'getHistory.php?'
 };
 var lastAdded ={};
-var resultsPerPage = 100;
+var RESULTS_PER_PAGE = 100;
 var tweet_url;
 var tweet_text;
 var tweet_via;
 
 $(function(){
 
-    /**INITIALIZATION**/
     $('#interactive input').val(''); //some browsers save all input values, so must manually reset
     var mode = 'add'; //default mode on opening the page
     var modeOpt ={
@@ -53,17 +52,17 @@ $(function(){
         $('#list')
             .on('mouseup','.tableHead',function(){ //sorts the table
                 var newOrder = $(this).data('property');
-                if(modeOpt[mode]['orderBy'] == newOrder){
-                    if(modeOpt[mode]['sort'] === undefined){
-                        modeOpt[mode]['sort'] = 'asc';
+                if(modeOpt[mode].orderBy == newOrder){
+                    if(modeOpt[mode].sort === undefined){
+                        modeOpt[mode].sort = 'asc';
                     }
                     else{
-                        modeOpt[mode]['sort'] = undefined;
+                        modeOpt[mode].sort = undefined;
                     }
                 }
                 else{
-                    modeOpt[mode]['orderBy'] = newOrder;
-                    modeOpt[mode]['sort'] = undefined;
+                    modeOpt[mode].orderBy = newOrder;
+                    modeOpt[mode].sort = undefined;
                 }
                 getVictims();
             })
@@ -93,9 +92,9 @@ $(function(){
                     .addClass('changed');
                 var property = $(this).data('property');
                 var victim = $(this).closest('.victim');
-                if(victimProperties[property]['tiedTo'] !== undefined){
-                    for(var i = 0; i < victimProperties[property]['tiedTo'].length; i++){
-                        victim.find('input.' + victimProperties[property]['tiedTo'][i]).addClass('changed');
+                if(victimProperties[property].tiedTo !== undefined){
+                    for(var i = 0; i < victimProperties[property].tiedTo.length; i++){
+                        victim.find('input.' + victimProperties[property].tiedTo[i]).addClass('changed');
                     }
                 }
                 $(this)
@@ -110,7 +109,7 @@ $(function(){
             .on('change','input',function(){
                 $(this).validateField();
                 var property = $(this).data('property');
-                if(victimProperties[property]!==undefined && victimProperties[property]['addMatch'] == "true"){
+                if(victimProperties[property]!==undefined && victimProperties[property].addMatch == "true"){
                     $(this)
                         .addToFilters(modeOpt[mode][property]);
                     getVictims();
@@ -119,20 +118,13 @@ $(function(){
             .on('focus','input.age',function(){
                 var left = $(this).position().left;
                 var top = $(this).position().top;
-                /*
-                $('<div id="tooltip">')
-                    .css('left',left+50)
-                    .css('top',top-30)
-                    .html('Type <em>adult</em>, <em>teen</em>, or <em>child</em> here to specify age group if exact age is unknown. If the source identified the victim as a "man" or "woman," the age group is <em>adult</em>.')
-                    .appendTo('body');
-                    */
             })
             .on('blur','input.age',function(){
                 $('#tooltip').remove();
             });
         $('#searchBox')
             .on('change','input',function(){
-                modeOpt['search']['limitx'] = 0;
+                modeOpt.search.limitx = 0;
                 $(this)
                     .validateField()
                     .addToFilters(modeOpt[mode]);
@@ -150,16 +142,16 @@ $(function(){
             switchMode('add');
         });
         $('#btn_nextPage').click(function(){
-            if(modeOpt[mode]['limitx'] === undefined){
-                modeOpt[mode]['limitx'] = resultsPerPage;
+            if(modeOpt[mode].limitx === undefined){
+                modeOpt[mode].limitx = RESULTS_PER_PAGE;
             }
             else{
-                modeOpt[mode]['limitx'] += resultsPerPage;
+                modeOpt[mode].limitx += RESULTS_PER_PAGE;
             }
             getVictims();
         });
         $('#btn_previousPage').click(function(){
-            modeOpt[mode]['limitx'] -= resultsPerPage;
+            modeOpt[mode].limitx -= RESULTS_PER_PAGE;
             getVictims();
         });
         $('#tweetBox')
@@ -181,7 +173,7 @@ $(function(){
                     .find('input').val('').end()
                     .find('.little').remove();
             }
-            modeOpt[mode]['filters']={};
+            modeOpt[mode].filters={};
             getVictims();
         });
     }
@@ -218,14 +210,14 @@ $(function(){
             var maxDate = parseDate(value);
             minDate.setDate(minDate.getDate()-1);
             maxDate.setDate(maxDate.getDate()+1);
-            modeOpt[mode]['filters']['minDate'] = toMMDDYYYY(minDate);
-            modeOpt[mode]['filters']['maxDate'] = toMMDDYYYY(maxDate);
+            modeOpt[mode].filters.mingDate = toMMDDYYYY(minDate);
+            modeOpt[mode].filters.maxDate = toMMDDYYYY(maxDate);
         }
         else{
-            modeOpt[mode]['filters'][property] = value;
+            modeOpt[mode].filters[property] = value;
         }
         if(value === ''){
-            delete modeOpt[mode]['filters'][property];
+            delete modeOpt[mode].filters[property];
         }
     };
     function toMMDDYYYY(date){
@@ -319,11 +311,11 @@ $(function(){
                     if(data.length>0){
                         for(var i=0;i<data.length;i++){
                             var c=data[i];
-                            var fromValue = c['fromValue'];
+                            var fromValue = c.fromValue;
                             if(fromValue===''){
                                 fromValue='unknown';
                             }
-                            p = $('<p class="change">&#187; <span>'+c['user']+'</span> changed <span class="prop">'+c['property']+'</span> from <span>'+decodeData(c['property'],fromValue)+'</span> to <span class="toValue">'+decodeData(c['property'],c['toValue'])+'</span> on <span>'+c['time']+'</span></p>');
+                            p = $('<p class="change">&#187; <span>'+c.user+'</span> changed <span class="prop">'+c.property+'</span> from <span>'+decodeData(c.property,fromValue)+'</span> to <span class="toValue">'+decodeData(c.property,c.toValue)+'</span> on <span>'+c.time+'</span></p>');
                             newChanges.append(p);
                         }
                     }
@@ -392,10 +384,10 @@ $(function(){
                 var date;
                 var today_time;
                 var day;
-                if(dayMappings[value.toLowerCase()] !== undefined){
+                if(DAY_MAPPINGS[value.toLowerCase()] !== undefined){
                     today_time = new Date();
                     var today_day = today_time.getDay();
-                    var then_day = dayMappings[value.toLowerCase()];
+                    var then_day = DAY_MAPPINGS[value.toLowerCase()];
                     var daysPassed = then_day < today_day ? today_day - then_day : today_day + (7 - then_day);
                     var timePassed = daysPassed * 24 * 60 * 60 * 1000;
                     date = new Date(today_time - timePassed);
@@ -421,7 +413,7 @@ $(function(){
                     s = month + '/' + day + '/' + year;
                     $(this).val(s);
                 }
-                day = weekday[date.getDay()];
+                day = WEEKDAY[date.getDay()];
                 $(this)
                     .parent()
                     .append('<span class="little">' + day + '</span>');
@@ -456,7 +448,7 @@ $(function(){
         }
         else if(property == 'state'){
             if(value.length > 2){
-                var abbrev = convert_state(value, 'abbrev');
+                var abbrev = convertState(value, 'abbrev');
                 if(abbrev){
                     $(this).val(abbrev);
                 }
@@ -485,7 +477,7 @@ $(function(){
         }
         function processKey(key){
             keyLC = key.toLowerCase();
-            if(key.indexOf('/') > -1 || dayMappings[key] !== undefined){
+            if(key.indexOf('/') > -1 || DAY_MAPPINGS[key] !== undefined){
                 victim.find('input.date')
                     .val(key)
                     .validateField()
@@ -546,7 +538,7 @@ $(function(){
             var property = $(this).data('property');
             $('#editBox').find('input.' + property)
                 .val($(this).val());
-            if(victimProperties[property]['addMatch']!==undefined == "true"){
+            if(victimProperties[property].addMatch!==undefined == "true"){
                 $(this)
                     .addToFilters(modeOpt[mode][$(this).data('property')]);
             }
@@ -555,7 +547,7 @@ $(function(){
     };
     $.fn.tweetRow =function(){
         $(this).saveToLastAdded();
-        lastAdded["tweeted"] = $(this).find('.tweetRow').hasClass('tweeted');
+        lastAdded.tweeted = $(this).find('.tweetRow').hasClass('tweeted');
         makeTweet();
         return this;
     };
@@ -577,14 +569,14 @@ $(function(){
         $('#list').empty();
         $('#searchDescription').empty();
         $('#btn_nextPage,#btn_previousPage').hide();
-        if(mode == 'search' || (mode == 'add' && (modeOpt[mode]['filters']['name'] !==undefined || modeOpt[mode]['filters']['city'] !== undefined || modeOpt[mode]['filters']['minDate'] !== undefined))){
+        if(mode == 'search' || (mode == 'add' && (modeOpt[mode].filters.name !==undefined || modeOpt[mode].filters.city !== undefined || modeOpt[mode].filters.mingDate !== undefined))){
             $('#list').append('<p id="loader"><img id="loaderImage" src="graphics/ajax-loader.gif"/>Fetching data</p>');
             buildSearchDescription();
             var p = servicePaths.getVictims +
-                (modeOpt[mode]['filters'] !== undefined ? buildQueryString(modeOpt[mode]['filters']) : '') +
-                (modeOpt[mode]['orderBy'] !== undefined ? '&orderBy=' + modeOpt[mode]['orderBy'] : '') +
-                (modeOpt[mode]['sort'] !== undefined ? '&sort=' + modeOpt[mode]['sort'] : '') +
-                (modeOpt[mode]['limitx'] !== undefined ? '&limitx=' + modeOpt[mode]['limitx'] : '0') +
+                (modeOpt[mode].filters !== undefined ? buildQueryString(modeOpt[mode].filters) : '') +
+                (modeOpt[mode].orderBy !== undefined ? '&orderBy=' + modeOpt[mode].orderBy : '') +
+                (modeOpt[mode].sort !== undefined ? '&sort=' + modeOpt[mode].sort : '') +
+                (modeOpt[mode].limitx !== undefined ? '&limitx=' + modeOpt[mode].limitx : '0') +
                 '&callback=?';
             console.log(p);
             $.ajax({
@@ -598,13 +590,13 @@ $(function(){
                         for(var i = 0; i < len; i++){
                             printVictim(data[i]);
                         }
-                        if(data.length == resultsPerPage){
+                        if(data.length == RESULTS_PER_PAGE){
                             $('#btn_nextPage').show();
                         }
                         else{
                             $('#btn_nextPage').hide();
                         }
-                        if(modeOpt[mode]['limitx']!==0){
+                        if(modeOpt[mode].limitx!==0){
                             $('#btn_previousPage').show();
                         }
                         else{
@@ -622,7 +614,7 @@ $(function(){
         }
 
         function buildSearchDescription(){
-            var D = modeOpt[mode]['filters'];
+            var D = modeOpt[mode].filters;
             var c = 0;
             var s = 'Showing all victims where ';
             var len = 0;
@@ -646,14 +638,14 @@ $(function(){
             if(c===0){
                 s = '';
             }
-            if(modeOpt[mode]['orderBy']===undefined){
+            if(modeOpt[mode].orderBy===undefined){
                 s += 'ordering by time last modified';
             }
             else{
                 if(mode == 'search'){
                     s += '<span data-type="orderBy">';
                 }
-                s += 'ordering by ' + modeOpt[mode]['orderBy'];
+                s += 'ordering by ' + modeOpt[mode].orderBy;
                 if(mode == 'search'){
                     s += '</span>';
                 }
@@ -673,10 +665,10 @@ $(function(){
         var tableHeads = $('<div id="tableHeads">');
         for(var i in victimProperties){
             var display_name = i;
-            if(victimProperties[i]['short'] !== undefined){
-                display_name = victimProperties[i]['short'];
+            if(victimProperties[i].short !== undefined){
+                display_name = victimProperties[i].short;
             }
-            if(victimProperties[i]['inTable']!="false"){
+            if(victimProperties[i].inTable!="false"){
                 $('<div class="tableHead ' + i + '">' + display_name + '</div>')
                     .data('property', i)
                     .appendTo(tableHeads);
@@ -685,14 +677,14 @@ $(function(){
         tableHeads.appendTo('#list');
     }
     function printVictim(victimData){
-        var victimBox = $('<div class="victim">').data('victimid', victimData['victimID']);
+        var victimBox = $('<div class="victim">').data('victimid', victimData.victimID);
         $('<div class="editRow"><img src="graphics/pencil.png"/></div>').appendTo(victimBox);
         for(var i in victimProperties){
-            if(victimProperties[i]['inTable']!="false"){
-                var newCell = $('<div class="property ' + i + '">' + '<input type="text" disabled="disabled" ' + ' data-edit="' + victimProperties[i]['edit'] + '"' + ' data-property="' + i + '"' + ' class="' + i + '"' + ' value="' + decodeData(i, victimData[i]) + '"/>' + '</div>');
+            if(victimProperties[i].inTable!="false"){
+                var newCell = $('<div class="property ' + i + '">' + '<input type="text" disabled="disabled" ' + ' data-edit="' + victimProperties[i].edit + '"' + ' data-property="' + i + '"' + ' class="' + i + '"' + ' value="' + decodeData(i, victimData[i]) + '"/>' + '</div>');
                 if(i == 'date'){
                     var date = new Date(decodeData(i, victimData[i]));
-                    var day = weekday[date.getDay()];
+                    var day = WEEKDAY[date.getDay()];
                     $('<span class="little">' + day + '</span>').appendTo(newCell);
                 }
                 if(i=='url'&&victimData.broken==='1'){
@@ -708,7 +700,7 @@ $(function(){
             .appendTo('#list');
         //var tweetRow = $('<div class="tweetRow"></div>');
         /*
-        if(victimData['tweeted']==1){
+        if(victimData.tweeted==1){
             tweetRow.addClass('tweeted');
         }*/
         //tweetRow.appendTo(victimBox);
@@ -732,7 +724,7 @@ $(function(){
     }
     function getLatLng(city, state, callback){
         if(state.length < 3){
-            state = convert_state(state, "name");
+            state = convertState(state, "name");
         }
         var p;
         if(state == "D.C."){
@@ -746,8 +738,8 @@ $(function(){
             dataType: 'jsonp',
             success: function (data){
                 if(data.length > 0){
-                    var lat = data[0]['lat'];
-                    var lng = data[0]['lon'];
+                    var lat = data[0].lat;
+                    var lng = data[0].lon;
                     return callback(lat, lng);
                 }
                 return callback('','');
@@ -786,13 +778,13 @@ $(function(){
                 success: function (data){
                     getVictims();
                     victim.saveToLastAdded();
-                    /*if(data["tweeted"]){
-                        lastAdded["tweeted"]=true;
+                    /*if(data.tweeted){
+                        lastAdded.tweeted=true;
                     }*/
                     makeTweet();
                     victim.find('input')
                         .focus(function(){
-                        modeOpt[mode]['filters'] ={};
+                        modeOpt[mode].filters ={};
                         $('#tweetBox').hide();
                         $('#editBox input').unbind('focus');
                     })
@@ -837,7 +829,7 @@ $(function(){
         var fragments = '';
         var headline = $('#tweetBox').find('input.headline').val();
         var tweeter = $('#tweetBox').find('input.tweeter').val();
-        var date = victim['date'];
+        var date = victim.date;
         date = new Date(date);
         date = (date.getMonth() + 1) + '/' + (date.getDate());
 
@@ -853,10 +845,10 @@ $(function(){
             else if(fragment_age != 'Newborn'){
                 fragment_noun = getNoun();
             }
-            tweet_url = victim['url'];
+            tweet_url = victim.url;
             fragments = fragment_age + fragment_noun + ' killed';
         }
-        var s = date + ': ' + victim['city'] + ', ' + victim['state'] + ': ' + fragments;
+        var s = date + ': ' + victim.city + ', ' + victim.state + ': ' + fragments;
         if(tweeter!==''){
             tweet_via = tweeter.replace('@','');
             if(tweeter[0] != '@'){
@@ -870,7 +862,7 @@ $(function(){
 
         tweet_text = s;
         $('#tweetBox textarea').val(s + ' ' + tweet_url + tweeter);
-        if(victim['tweeted']=="true"){
+        if(victim.tweeted=="true"){
             $('#alreadyTweeted').show();
         }
         else{
@@ -880,41 +872,41 @@ $(function(){
         function getNoun(){
 
             //if gender defined
-            if(victim['gender']!==undefined){
-                if(victim['gender'] == 'F'){
-                    if(victim['ageGroup'] == 'teen' || victim['ageGroup'] == 'child'){
+            if(victim.gender!==undefined){
+                if(victim.gender == 'F'){
+                    if(victim.ageGroup == 'teen' || victim.ageGroup == 'child'){
                         return 'girl';
                     }
-                    else if(victim['ageGroup'] == 'adult'){
+                    else if(victim.ageGroup == 'adult'){
                         return 'woman';
                     }
                 }
-                else if(victim['gender'] == 'M'){
-                    if(victim['ageGroup'] == 'teen' || victim['ageGroup'] == 'child'){
+                else if(victim.gender == 'M'){
+                    if(victim.ageGroup == 'teen' || victim.ageGroup == 'child'){
                         return 'boy';
                     }
-                    else if(victim['ageGroup'] == 'adult'){
+                    else if(victim.ageGroup == 'adult'){
                         return 'man';
                     }
                 }
             }
             //if gender is not defined, but age group is
-            else if(victim['ageGroup']!==undefined){
-                if(victim['ageGroup'] == 'child'){
+            else if(victim.ageGroup!==undefined){
+                if(victim.ageGroup == 'child'){
                     return 'child';
                 }
-                else if(victim['ageGroup'] == 'teen'){
+                else if(victim.ageGroup == 'teen'){
                     return 'teen';
                 }
             }
             return 'person';
         }
         function getAge(){
-            if(victim['age']!==undefined){
-                if(victim['age'] > 1){
-                    return victim['age'] + '-year-old ';
+            if(victim.age!==undefined){
+                if(victim.age > 1){
+                    return victim.age + '-year-old ';
                 }
-                else if(victim['age']!=='' && victim['age']===0){
+                else if(victim.age!=='' && victim.age===0){
                     return 'Newborn';
                 }
             }
@@ -939,24 +931,6 @@ $(function(){
             URL += '&via=' + tweet_via;
         }
         window.open(URL, 'twitter', opts);
-        /*
-        var p = servicePaths.tweetVictim + 'url=' + lastAdded['url'];
-        $.ajax({
-            url: p,
-            dataType: "json",
-            success: function (data){
-                if(lastAdded['tweeted']!=1){
-                    $('.victim').each(function(){
-                        if($(this).find('input.url').val()==lastAdded['url']){
-                            $(this).markTweeted();
-                        }
-                    });
-                }
-            },
-            error:function(){
-                alert('Error. Database did not update');
-            }
-        });*/
     });
 });
 
@@ -1128,18 +1102,18 @@ function checkState(value, type){
     return false;
 }
 
-function convert_state(name, to){
+function convertState(name, to){
     var output = false;
     for(var state in states){
         if(to == 'name'){
-            if(states[state]['abbrev'].toLowerCase() == name.toLowerCase()){
-                output = states[state]['name'];
+            if(states[state].abbrev.toLowerCase() == name.toLowerCase()){
+                output = states[state].name;
                 break;
             }
         }
         else if(to == 'abbrev'){
-            if(states[state]['name'].toLowerCase() == name.toLowerCase()){
-                output = states[state]['abbrev'].toUpperCase();
+            if(states[state].name.toLowerCase() == name.toLowerCase()){
+                output = states[state].abbrev.toUpperCase();
                 break;
             }
         }
@@ -1148,16 +1122,8 @@ function convert_state(name, to){
 }
 
 //date validation
-var weekday = new Array(7);
-weekday[0] = "sun";
-weekday[1] = "mon";
-weekday[2] = "tue";
-weekday[3] = "wed";
-weekday[4] = "thu";
-weekday[5] = "fri";
-weekday[6] = "sat";
-
-var dayMappings ={
+var WEEKDAY = ["sun","mon","tue","wed","thu","fri","sat"];
+var DAY_MAPPINGS ={
     'sunday': 0,
     'sun': 0,
     'monday': 1,
@@ -1176,43 +1142,43 @@ var dayMappings ={
     'sat': 6
 };
 
-    function parseDate(input){
-        //input: a string, MM/DD/YYYY or MM/DD/YY. returns a date.
-        var parts = input.match(/(\d+)/g);
-        if(parts!==null&&parts.length > 0){
-            var today;
-            if(parts.length == 1){ //if month is specified but nothing else
-                today = new Date();
-                var todayDate = today.getDate();
-                var month;
-                if(parts[0] <= todayDate){ //date is in same month
-                    month = today.getMonth() + 1;
-                }
-                else if(parts[0] > todayDate){ //date is in last month
-                    month = today.getMonth();
-                }
-                parts = [month, parts[0], today.getFullYear()];
+function parseDate(input){
+    //input: a string, MM/DD/YYYY or MM/DD/YY. returns a javascript date.
+    var parts = input.match(/(\d+)/g);
+    if(parts!==null&&parts.length > 0){
+        var today;
+        if(parts.length == 1){ //if month is specified but nothing else
+            today = new Date();
+            var todayDate = today.getDate();
+            var month;
+            if(parts[0] <= todayDate){ //date is in same month
+                month = today.getMonth() + 1;
             }
-            else if(parts.length == 2){ //if month and date are specified but not year
-                today = new Date();
-                var todayMonth = today.getMonth();
-                var year;
-                if(parts[0] - 1 <= todayMonth){ //same month or less, so this year
-                    year = today.getFullYear();
-                }
-                else if(parts[0] - 1 > todayMonth){ //greater than this month, so last year
-                    year = today.getFullYear() - 1;
-                }
-                parts.push(year);
+            else if(parts[0] > todayDate){ //date is in last month
+                month = today.getMonth();
             }
-            else if(parts[2].length == 2){ //if year is specified but the millenium is not specified
-                parts[2] = '20' + parts[2];
-            }
-            var output = new Date(parts[2], parts[0] - 1, parts[1]);
-            if(output == 'Invalid Date'){
-                output = new Date(Date.parse(input));
-            }
-            return output;
+            parts = [month, parts[0], today.getFullYear()];
         }
-        return input;
+        else if(parts.length == 2){ //if month and date are specified but not year
+            today = new Date();
+            var todayMonth = today.getMonth();
+            var year;
+            if(parts[0] - 1 <= todayMonth){ //same month or less, so this year
+                year = today.getFullYear();
+            }
+            else if(parts[0] - 1 > todayMonth){ //greater than this month, so last year
+                year = today.getFullYear() - 1;
+            }
+            parts.push(year);
+        }
+        else if(parts[2].length == 2){ //if year is specified but the millenium is not specified
+            parts[2] = '20' + parts[2];
+        }
+        var output = new Date(parts[2], parts[0] - 1, parts[1]);
+        if(output == 'Invalid Date'){
+            output = new Date(Date.parse(input));
+        }
+        return output;
     }
+    return input;
+}

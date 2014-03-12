@@ -7,7 +7,7 @@ function isLoggedIn(){
     return false;
 }
 if(isLoggedIn()!=true){
-    echo 'Error: You are not logged in! To log in, go here: <a href="http://slate-interactives-prod.elasticbeanstalk.com/gun-deaths/form/">http://slate-interactives-prod.elasticbeanstalk.com/gun-deaths/form/</a>';
+    echo 'Error: You are not logged in! To log in, go <a href="form/">here</a>.';
     exit();
 }
 

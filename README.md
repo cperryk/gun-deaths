@@ -29,8 +29,6 @@ This package includes:
 
 <strong>getVictims.php</strong>: Retrieve information about a victim, a set of victims matching specified criteria, or all victims
 
-<strong>login_form.php</strong>: The form for a user to log in.
-
 <strong>tmhOAuth.php</strong>: When a victim is added to the database, @GunDeaths automatically tweets out information about him/her. This file is required for the automatic tweeting function.
 
 <strong>updateVictim</strong>: Update the properties of a specified victim.
