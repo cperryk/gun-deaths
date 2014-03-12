@@ -1,0 +1,109 @@
+<html>
+<head>
+    
+<style type="text/css">
+    
+    body{
+        font-family:verdana;
+        width:600px;
+        line-height:150%;
+        margin-left:auto;
+        margin-right:auto;
+    }
+    p{
+        font-size:13px;
+        margin-bottom:0px;
+    }
+    h2{
+        font-size:20px;
+        border-bottom:1px solid #e3e3e3;
+        margin-top:30px;
+    }
+    h3{
+        font-size:16px;
+    }
+    ul{
+        margin-top:0px;
+        margin-bottom:0px;
+    }
+    li{
+        font-size:12px;
+    }
+    em{
+        color:#003869;
+    }
+    h1{
+        font-size:24px;
+        text-align:center;
+    }
+    .icon{
+        width:20px;
+    }
+</style>
+    
+<title>Gun Deaths Tutorial</title>
+</head>
+<body>
+<h1>About the Gun Deaths Editor Interface</h1>    
+<h2>Search for Victims</h2>
+<p>Fill out a field, and you'll see all victims that match it.</p>
+<ul>
+    <li>If you put "Jon Smith" in <em>name</em>, you'll see all victims with the exact name "Jon Smith"</li>
+    <li>If you put "Jon Smith" in <em>name</em> and "13" in <em>age</em>, you'll see all victims with the exact name "Jon Smith" who are 13</li>
+</ul>
+<p>Learn about Quick Search below.</p>
+
+<h2>Add a Victim</h2>
+<p>On "Add," you can add a new victim.</p>
+<p>As you start filling out the form, you'll start seeing existing victims with the same date and city to help you determine if the victim already exists.</p>
+<p>After you've added a victim to the database, a sample tweet will appear.</p>
+
+<h2>Edit / Delete Victims</h2>
+<p>On either tab, whenever you see search results, you can edit them.</p>
+<p>To delete: Press <img src="trash.png" class="icon"/>.</p>
+<p>To edit: Press <img src="pencil.png" class="icon"/> to unlock a row. Editable fields will appear blue. Press <img src="disk.png" class="icon"/> to save. The entry is not saved until the edit icon appears again.</p>
+
+<h2>Copy Victim</h2>
+<p>To copy some data from an existing victim, press <img src="copy.png" class="icon"/>. This will transfer you to Add Mode, with location, date, and URL already filled out.</p>
+
+<h2>Change History</h2>
+<p>Every time somebody makes a change to a victim, the property changed, its old value, its new value, the user who changed it, and the time it was changed is logged. To view the change history of a victim, press <img src="history.png" class="icon"/>.</p>
+
+<h2>Sorting</h2>
+<p>Click a column to sort by it. Click it again to sort in the opposite direction.</p>
+<p>Currently, you can only sort by one column at a time.</p>
+<p>On "search", the default sort is by the time each victim was last modified. To restore this default sort, click the "ordering by [property]" at the top.</p> 
+
+<h2>Tweet Tracking</h2>
+<p><img src="icon_tweet.png"/> indicates that the source URL of a victim has not been tweeted. <img src="icon_tweet_gray.png"/> indicates the source URL has been tweeted.</p>
+<p>Click a Twitter icon to pull up the "Tweet It" module for that incident.</p>
+<h2>Neat Tricks</h2>
+<h3>Smart Fields</h3>
+<p>When you fill out a field, the application will automatically interpret your input and fill out related fields.</p>
+<p>Examples:</p>
+<ul>
+    <li>If you put "10" into <em>age</em>, <em>ageGroup</em> will automatically show "child"</li>
+    <li>If you put "adult" into <em>age</em>, <em>ageGroup</em> will show "adult"</li>
+    <li>If you put "tuesday" into <em>date</em>, <em>date</em> will show the date of last Tuesday</li>
+    <li>If you put "today" or "yesterday" into <em>date</em>, <em>date</em> will show the appropriate date</li>
+    <li>When you fill out <em>city</em> and <em>state</em>, the latitude and longitudes will automatically appear</li>
+    <li>"w", "f", and "m" in <em>gender</em> will automatically correct to either "M" or "F"</li>
+</ul>
+<p>If the application doesn't understand your input, the field will remain blank.</p>
+<h3 id="quickSearch">Quick Search</h3>
+<p>Use "Quick Search" to rapidly search for keywords or multiple fields at once. For example:</p>
+<ul>
+    <li>"teen f": find all teenage female victims</li>
+    <li>"1230": find victim with victimID 1230.</li>
+    <li>"m Chicago": find all 21-year-old male victims who have "Chicago" in any property</li>
+    <li>"Smith 1/2/2013": find all Jan. 2 victims who have "Smith" in any property, even if it's only part of that property as in "Jon Smith"</li>
+</ul>
+<p>The order in which terms are entered does not matter.</p>
+
+<h3 id="quickSearch">Data Backup</h3>
+<p>The complete database is saved every midnight. All data is backed up at ubuntu@ec2-107-20-119-21.compute-1.amazonaws.com in home/ubuntu/gunDeathBackups.</p>
+
+<p>Questions? Suggestions? Email <a href="mailto:chris.kirk@slate.com">chris.kirk@slate.com</a>.</p>
+
+</body>
+</html>

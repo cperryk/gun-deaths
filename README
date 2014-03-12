@@ -1,0 +1,38 @@
+Server-side scripts for Slate.com's Gun Deaths project.
+
+This package includes:
+- Scripts for registering new users and logging them in. Registered users include some Slate.com editors and volunteers whom Slate editors have vetted. These users can access a GUI that allows them to easily manipulate the victims database.
+- The documents related to that GUI, located in the "form" directory.
+- Scripts for adding, removing, and modifying victim data. These scripts are executable only by users who are logged in.
+- A script for retrieiving victim data based on a URL query string from the database.
+- Documents related to an effort by Slate.com to crowdsource the classifications of each death (accident, murder, self-defense, etc.), in "categorization"
+
+categorization/: Contains files related to Slate's effort to categorize the incidents in the database.
+
+form/: Contains files associated with the custom-built database GUI, accessible by credentialed users.
+
+addVictim.php: Add a victim to the database based on parameters specified in the URL query string (credentialed users only)
+
+checkIfLoggedIn.php: Check if the current user is logged in.
+
+deleteVictim.php: Delete a victim specified in the URL query string (credentialed users only)
+
+getCSV.php: Return most of the database as a CSV file
+
+getCSVfull.php: Return all the fields of the database as a CSV file
+
+getHistory.php: Return the revision history of a victim (credentialed users only)
+
+getIP.php: Return the IP of the user
+
+getMapData.php: Return the top 1,000 cities with the most gun deaths, for the map on the front-end interactive
+
+getVictims.php: Retrieve information about a victim, a set of victims matching specified criteria, or all victims
+
+login_form.php: The form for a user to log in
+
+tmhOAuth.php: When a victim is added to the database, @GunDeaths automatically tweets out information about him/her. This file is required for the automatic tweeting function.
+
+updateVictim: Update the properties of a specified victim.
+
+cacert.pem: Required for tmOAuth.php

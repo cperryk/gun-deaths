@@ -1,0 +1,52 @@
+<html>
+<head>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+</head>
+	<body>
+	
+
+	<!--paste into renderHTML-->
+	<style type="text/css">
+		#interactive{
+			height:700px;
+			margin-top:10px;
+			margin-bottom:10px;
+			border-top:20px solid #660033;
+			border-bottom:20px solid #660033;
+		}
+	</style>
+	<script type="text/javascript">
+		$(function(){
+			function fullWidthElement(conf){
+				if(console){console.log(conf.ele[0]);}
+				function sizeEle(){
+					conf.ele
+						.css({
+							'width':$(window).width(),
+							'position':'static'
+						});
+					if(conf.stretchHeight){
+						conf.ele.css({'height':$(window).height()*0.9});
+					}
+					conf.ele
+						.css({
+							'position':'relative',
+							'left':conf.ele.offset().left*-1
+						});
+					if(conf.callback){conf.callback();}
+				}
+				$(window).resize(function(){
+					sizeEle();
+				});
+				sizeEle();
+			}
+			fullWidthElement({ele:$('#interactive')});
+		});
+	</script>
+	<iframe id="interactive" src="http://slate-interactives-prod.elasticbeanstalk.com/gun-deaths/categorization/" frameborder="0" scrolling="no"></iframe>
+
+
+
+
+</body>
+</html>
