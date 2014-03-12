@@ -1,7 +1,11 @@
-The files here are associated with Slate's effort to categorize each gun-related death in its database with crowdsourcing.
+The files here are associated with Slate's <a href="http://www.slate.com/articles/news_and_politics/crime/2013/11/gun_deaths_in_america_help_slate_dig_deeper_into_the_data.html">effort</a> to categorize each gun-related death in its database with crowdsourcing.
 
-Embed.html: HTML to be embedded into an HTML component of Slate's CMS, Adobe CQ5
+<strong>embed.html</strong>: HTML to be embedded into an HTML component of Slate's CMS, Adobe CQ5
 
-index.php: Picks a random victim in the database from among the victims who have the least number of categorization responses and displays information about that victim alongside the source article of that victim and buttons that allow the user to categorize that victim based on the contextual information provided in the source article.
+<strong>index.php</strong>: Picks a random victim in the database from among the victims who have the least number of categorization responses and displays information about that victim alongside the source article of that victim and buttons that allow the user to categorize that victim based on the contextual information provided in the source article.
 
-getCategories.php: Just for internal use, returns the number of victims in each category
+<strong>getCategories.php</strong>: Returns the number of victims in each category. (Just for internal analysis)
+
+<strong>getCategorizations.php</strong>: Retrieve the categoriaton vote counts for a specific victim.
+
+<strong>getCategorizationsCSV.php</strong>: Export categorization votes as a CSV file.
