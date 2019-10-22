@@ -6,3 +6,5 @@
 *.out
 *old/
 *twitter_credentials.php
+
+node_modules

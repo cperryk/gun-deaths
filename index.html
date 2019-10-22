@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <title>Gun Deaths</title>
+  <body>
+
+<!-- paste into RenderHTML-->
+<!-- KIRK TEST -->
+
+<script type="text/javascript" src="lib/leaflet/leaflet-0.6.3.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="lib/leaflet/leaflet.css" />
+<link rel="stylesheet" href="gun-deaths.css" />
+<script type="text/javascript" src="data/victims.js"></script>
+<script type="text/javascript" src="gun-deaths.js"></script>
+<script type="text/javascript" src="data/locations.js"></script>
+  
+<section class="intro">
+  <h1>A Year of Gun Deaths</h1>
+
+  <p>
+    This is a restoration of <i>Slate</i>'s <a href="http://www.slate.com/articles/news_and_politics/crime/2012/12/gun_death_tally_every_american_gun_death_since_newtown_sandy_hook_shooting.html">Gun Deaths</a> project, which tracked, aggregated, and visualized gun deaths from the 2012 mass shooting of Newtown to the end of the following year.
+    A team of volunteers gathered the data shown below from thousands of news articles and public sources.
+        For more, see the <a
+          href="http://www.slate.com/articles/news_and_politics/crime/2012/12/gun_death_tally_every_american_gun_death_since_newtown_sandy_hook_shooting.html">original
+          article</a> on <i>Slate</i>.
+  </p>
+
+  <p>
+    As <i>Slate</i>'s website has evolved, many old interactive projects became broken, and fixing them all is infeasible.
+    I've restored this one because I think the information is important.
+    To ensure it endures, this version does not rely on a server to serve up and filter the data.
+    Note that many links to source articles are broken or the articles now sit behind paywalls.
+  </p>
+
+  <p class="signature">
+    – Chris Kirk, former Interactives Editor of Slate.com
+  </p>
+</section>
+  
+
+<div id="interactive">
+
+  <div id="tooltip">
+    <div id="branch">
+      <div id="arrow"></div>
+      <div id="floater">
+        <div id="textArea">
+          <div id="loadingTooltip">Loading...</div>
+          <div id="tooltipData">
+            <p class="victim_information_p" id="tooltip_name"><span id="name_here"></span></p>
+            <p class="victim_information_p">Killed in <span id="location_here" class="tooltip_filter"></span></p>
+            <p class="victim_information_p">Shot on <span id="date_here" class="tooltip_filter"></span></p>
+            <p class="victim_information_p" id="tooltip_age">Age: <span id="age_here"></span></p>
+            <p class="victim_information_p">Source: <a id="source_here" target="_blank"></a></p>
+            <div id="victim_cats"></div>
+          </div>
+        </div>
+        <div id="miniMap">
+
+        </div>
+      </div>
+    </div>
+    <!--end branch -->
+  </div>
+  <!--end tooltip -->
+
+  <div id="mapContainer">
+    <p id="map_explanation">Click a marker below to filter incidents by that location. Shows only the 1,000 locations
+      with the most deaths.</p>
+    <p id="map_attribution">&#169; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</p>
+  </div>
+  <div id="filters">
+
+    <div id="filter_ageGroup" unselectable="on" class="filterGroup" data-property="ageGroup">
+      <div id="btn_ageGroup" unselectable="on" data-property="agegroup" class="filterHead"><a>Any Age Group</a><span
+          class="dwnarw"></span></div>
+      <div id="filterBox_agegroup" unselectable="on" class="filterBox" data-property="agegroup">
+        <ul>
+          <li class="standard active" unselectable="on" data-value="null">Any Age Group</li>
+          <li class="standard" unselectable="on" data-value="3">Adult</li>
+          <li class="standard" unselectable="on" data-value="2">Teen</li>
+          <li class="standard" unselectable="on" data-value="1">Child</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- gender filter-->
+    <div id="filter_gender" unselectable="on" class="filterGroup" data-property="gender">
+      <div id="btn_gender" unselectable="on" data-property="gender" class="filterHead"><a>Any Gender </a><span
+          class="dwnarw"></span></div>
+      <div id="filterBox_gender" unselectable="on" class="filterBox" data-property="agegroup">
+        <ul>
+          <li class="standard active" unselectable="on" data-value="null">Any Gender</li>
+          <li class="standard" unselectable="on" data-value="M">Male</li>
+          <li class="standard" unselectable="on" data-value="F">Female</li>
+        </ul>
+      </div>
+    </div>
+
+    <!--location filter-->
+    <div id="btn_ex_location" class="btn_ex" data-property="location">&#215;</div>
+    <div id="filter_location" class="filterGroup" data-property="location">
+      <div id="btn_location" data-property="location" class="filterHead"><a>Any Location </a><span
+          class="dwnarw"></span></div>
+      <div id="filterBox_location" class="filterBox" data-property="location">
+        <ul>
+          <li class="ti">City: <input type="text" id="icity" /></li>
+          <li class="ti">State: <input type="text" id="istate" /></li>
+          <li class="locative btnok">OK</li>
+        </ul>
+      </div>
+    </div>
+
+    <!--location date-->
+    <div id="btn_ex_date" class="btn_ex" data-property="date">&#215;</div>
+    <div id="filter_date" class="filterGroup" data-property="date">
+      <div id="btn_date" data-property="date" class="filterHead"><a>Any Date </a><span class="dwnarw"></span></div>
+      <div id="filterBox_date" class="filterBox" data-property="location">
+        <ul>
+          <li class="ti">Min Date: <input type="text" id="imindate" /></li>
+          <li class="ti">Max Date: <input type="text" id="imaxdate" /></li>
+          <li class="date btnok">OK</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="filter_keyword" class="filterGroup" data-property="keyword">
+      <div id="btn_keyword" data-property="keyword" class="filterHead"><a>No Keywords </a><span class="dwnarw"></span>
+      </div>
+      <div id="filterBox_keywords" class="filterBox" data-property="keyword">
+        <ul>
+          <li class="ti">Keywords: <input type="text" id="ikeyword" /></li>
+          <li class="keyword btnok">OK</li>
+        </ul>
+      </div>
+    </div>
+  </div><!-- end filters-->
+  <p id="count">Matched Deaths: <span id="count_here"></span> or more between Newtown and Dec. 31, 2013</p>
+  <div id="loading"><img src="http://www.slate.com/features/2013/gunDeaths/graphics/loader.gif" />Fetching latest data
+  </div>
+  <div id="victims_wrapper">
+    <div id="victims">
+    </div>
+  </div>
+  <!--end days-->
+  <div id="methodology">
+    <h2>Methodology</h2>
+    <p>Each person under 13 years of age is designated "child"; from 13 to 17: "teen"; 18 and older: "adult."</p>
+    <p>The same icons used to represent males is also used to represent individuals of unknown gender. The same icons
+      used to represent adults is also used to represent people of unknown age group.</p>
+    <p>The yellow and blue backgrounds represent alternating days.</p>
+    <p>The information is collected by volunteers from news reports about the deaths. The Slate interactives team and
+      these volunteers continually manage and revise the data.</p>
+    <p>The data are not comprehensive because not all gun-related deaths are reported by the news media. For example,
+      suicides often go unreported.</p>
+  </div>
+</div>
+<!--end interactive -->
+
+  </body>
+</html>
