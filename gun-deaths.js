@@ -6,7 +6,7 @@ $(function(){
 	var ACTIVE_MAKER_STYLE = {color:'#ED1F24',fillOpacity:1};
 	var HOVER_MARKER_STYLE = {color:'#300018',fillOpacity:1};
 	var INACTIVE_MARKER_STYLE = {color:'#660033',fillOpacity:0.7};
-	var MAP_ID = 'map-54m1dlce';
+	var MAP_ID = 'ckxjtt1542e4z14ucgonwii04';
 
 	const VICTIMS = window.victims;
 	const LOCATIONS = window.gunDeathsLocations;
@@ -17,7 +17,7 @@ $(function(){
 		}
 	});
 	L.TileLayer.MapBox = L.TileLayer.Common.extend({
-		url: 'http://{s}.tiles.mapbox.com/v3/{user}.{map}/{z}/{x}/{y}.png'
+		url: 'https://api.mapbox.com/styles/v1/cperryk/ckxjtt1542e4z14ucgonwii04/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiY3BlcnJ5ayIsImEiOiJja3hqdG1kZzYweHhmMzFxdzM3NnBrNG5pIn0.SW_C8MZfthNo6lLgkHqsFA'
 	});
 
 	VICTIMS.forEach((victim) => {
@@ -335,7 +335,7 @@ $(function(){
 			attributionControl:false,
 			zoomAnimation:false
 		})
-		.addLayer(new L.TileLayer.MapBox({user:'slate',map:MAP_ID}));
+		.addLayer(new L.TileLayer.MapBox({user:'cperryk',map:MAP_ID}));
 	};
 	Tooltip.prototype.setMiniMap = function(data){
 		this.marker = new L.Marker([data.lat,data.lng]);
