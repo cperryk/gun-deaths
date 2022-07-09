@@ -14,7 +14,7 @@ h1 {
 
 .intro {
     line-height: 1.5em;
-    width: 1038px;
+    max-width: 1038px;
     margin: 0 auto 2em auto;
 }
 
